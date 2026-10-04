@@ -1,0 +1,12 @@
+# hangfolio-plumbing: 1
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule: { interval: monthly }
+    allow: [{ dependency-name: "astro" }]
+    open-pull-requests-limit: 1
+    commit-message: { prefix: "Update site theme" }
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: monthly }

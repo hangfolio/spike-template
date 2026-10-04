@@ -1,0 +1,48 @@
+# Builds and publishes your site. You should not need to edit this file.
+# hangfolio-plumbing: 1
+name: Deploy site
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions: {}
+jobs:
+  first-run:
+    name: First-run facts (S5)
+    runs-on: ubuntu-24.04
+    permissions: {}
+    steps:
+      - name: Print the facts the welcome logic would use
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_CREATED: ${{ github.event.created }}
+          RUN_NUMBER: ${{ github.run_number }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          REF: ${{ github.ref }}
+          ACTOR: ${{ github.actor }}
+          TRIGGERING_ACTOR: ${{ github.triggering_actor }}
+        run: |
+          echo "event_name=$EVENT_NAME"
+          echo "event.created=$EVENT_CREATED"
+          echo "run_number=$RUN_NUMBER run_attempt=$RUN_ATTEMPT"
+          echo "ref=$REF"
+          echo "actor=$ACTOR triggering_actor=$TRIGGERING_ACTOR"
+          jq '{created, deleted, forced, before, after, base_ref, commits: (.commits | length? // null), head_commit_message: .head_commit.message, head_commit_committer: .head_commit.committer.name}' "$GITHUB_EVENT_PATH"
+          {
+            echo "### First-run facts (S5)"
+            echo "| event_name | event.created | run_number | ref |"
+            echo "|---|---|---|---|"
+            echo "| $EVENT_NAME | ${EVENT_CREATED:-empty} | $RUN_NUMBER | $REF |"
+          } >> "$GITHUB_STEP_SUMMARY"
+  build:
+    uses: hangfolio/spike-engine/.github/workflows/build.yml@v1
+    permissions:
+      contents: read
+      pages: read
+  deploy:
+    needs: build
+    if: needs.build.outputs.deploy == 'true'
+    uses: hangfolio/spike-engine/.github/workflows/deploy.yml@v1
+    permissions:
+      pages: write
+      id-token: write

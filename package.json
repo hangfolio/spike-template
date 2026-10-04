@@ -1,0 +1,16 @@
+{
+  "name": "spike-site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build"
+  },
+  "dependencies": {
+    "astro": "7.3.5"
+  },
+  "engines": {
+    "node": ">=22.12"
+  }
+}

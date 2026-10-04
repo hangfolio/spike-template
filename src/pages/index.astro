@@ -1,0 +1,20 @@
+---
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`;
+const build = process.env.GITHUB_SHA ?? 'local';
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={`spike-site ${build}`} />
+    <title>Spike site</title>
+    <link rel="stylesheet" href={url('/style.css')} />
+  </head>
+  <body>
+    <h1>Spike site</h1>
+    <p>Example content for a throwaway hangfolio spike.</p>
+    <p>Base path: <code>{base}</code></p>
+    <p><a href={url('/about.html')}>About</a></p>
+  </body>
+</html>
