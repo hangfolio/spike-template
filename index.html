@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Almost there</title>
+</head>
+<body>
+<main>
+<h1>Almost there</h1>
+<p>Your site is not built yet. In your repository, open Settings, then Pages, and set Source to GitHub Actions.</p>
+<p id="link"></p>
+</main>
+<script>
+  // user.github.io -> https://github.com/user/user.github.io/settings/pages
+  var owner = location.hostname.split('.')[0];
+  var a = document.createElement('a');
+  a.href = 'https://github.com/' + owner + '/' + location.hostname + '/settings/pages';
+  a.textContent = 'Open the Pages settings';
+  document.getElementById('link').appendChild(a);
+</script>
+</body>
+</html>
